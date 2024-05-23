@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moby Dick</title>
+    <style>
+      #button1 {
+        height: 400px;
+        width: 1225px;
+        color: rgb(0, 255, 0);
+        background-color: black;
+        font-size: 100px;
+        font: bolder;
+        text-align: center;
+        border-color: rgb(255, 0, 0);
+      }
+      #text-display-area {
+        background-color: rgb(0, 0, 88);
+        color: rgb(255, 0, 0);
+        font-size: 30px;
+        text-align: center;
+      }
+      #button2 {
+        height: 100px;
+        width: 1225px;
+        color: rgb(0, 255, 0);
+        background-color: black;
+        font-size: 50px;
+        font: bolder;
+        text-align: center;
+        border-color: rgb(255, 0, 0);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="text-display-area"></div>
+    <script>
+      const displyArea = document.getElementById("text-display-area");
+
+      async function openBook() {
+        const bookText = await bookLoad("mobydick.txt");
+        displyArea.innerText = bookText;
+      }
+
+      function bookLoad(url) {
+        return new Promise(function (resolve, reject) {
+          let request = new XMLHttpRequest();
+          request.open("GET", url);
+          request.onload = function () {
+            if (request.status === 200) {
+              resolve(request.response);
+            } else {
+              reject(
+                Error(`The text could not be loaded: ${request.statusText}`)
+              );
+            }
+          };
+          request.onerror = function () {
+            reject(Error("There was a network error."));
+          };
+          request.send();
+        });
+      }
+      function info() {
+        alert(
+          `This book is Moby Dick. Its source is a file named mobydick.txt. The text is from a website called: "https://www.gutenberg.org/files/2071/2071-0.txt" Feel free to visit the site.`
+        );
+      }
+    </script>
+    <button onclick="openBook()" id="button1">
+      Click Me To Open The Book!
+    </button>
+    <button onclick="info()" id="button2">More Information</button>
+  </body>
+</html>
